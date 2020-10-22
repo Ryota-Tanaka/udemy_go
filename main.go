@@ -1,22 +1,24 @@
 package main
 
-import "fmt"
+import (
+	"io/ioutil"
+	"log"
+	"net/http"
+)
 
 func main() {
-	//fmt.Println()
-	calculation()
-}
-
-func calculation() {
-	var (
-		abcd = 23
-		efgh = 21
-		aiu  int
-	)
-
-	if abcd > 20 {
-		aiu = abcd + efgh
+	resp, err := http.Get("http;//localhost:18888")
+	if err != nil {
+		panic(err)
 	}
 
-	fmt.Println(aiu)
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		panic(err)
+	}
+
+	log.Println(string(body))
 }
