@@ -1,7 +1,6 @@
 package main
 
 import (
-	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -14,11 +13,12 @@ func main() {
 
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	//body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
 		panic(err)
 	}
 
-	log.Println(string(body))
+	//log.Println(string(body))
+	log.Println("Status:", resp.Status)
 }
