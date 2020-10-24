@@ -1,24 +1,39 @@
 package main
 
 import (
-	"log"
 	"net/http"
+
+	"github.com/labstack/echo"
 )
 
+type Message struct {
+	Name    string `json:"name"`
+	Email   string `json:"email"`
+	Message string `json:"message"`
+}
+
+type Response struct {
+	Name    string `json:"name"`
+	Email   string `json:"email"`
+	Message string `json:message`
+	Stusts  string `json:status`
+}
+
 func main() {
-	resp, err := http.Get("http;//localhost:18888")
-	if err != nil {
-		panic(err)
+	e := echo.New()
+	e.POST("/send", sendMessage)
+	e.Logger.Fatal(e.Start(":1323"))
+}
+
+func sendMessage(c echo.Context) error {
+	m := new(Message)
+	if error := c.Bind(m); error != nil {
+		return error
 	}
-
-	defer resp.Body.Close()
-
-	//body, err := ioutil.ReadAll(resp.Body)
-
-	if err != nil {
-		panic(err)
-	}
-
-	//log.Println(string(body))
-	log.Println("Status:", resp.Status)
+	r := new(Response)
+	r.Name = m.Name
+	r.Email = m.Email
+	r.Message = m.Message
+	r.Stusts = "success"
+	return c.JSON(http.StatusOK, r)
 }
